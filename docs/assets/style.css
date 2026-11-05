@@ -1,0 +1,622 @@
+:root {
+  --night: #0D2138;
+  --night-deep: #091A2D;
+  --night-raised: #112B48;
+  --frost: #D9E4EE;
+  --frost-dim: #A9BBCC;
+  --line: rgba(217, 228, 238, 0.16);
+  --kerosene: #F0A43A;
+  --kerosene-light: #F7C37A;
+  --kerosene-ink: #1C1206;
+  --thread: #C2362F;
+  --warden: #9AD873;
+  --error: #FFB1A3;
+  --display: "Old Standard TT", "Times New Roman", serif;
+  --text: "Arsenal", "Trebuchet MS", sans-serif;
+  --mono: "PT Mono", "Courier New", monospace;
+  --pad: clamp(10px, 1.4vw, 20px);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--night);
+  scrollbar-color: #2C4A6E var(--night-deep);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--night);
+  color: var(--frost);
+  font: 400 1.125rem/1.6 var(--text);
+  font-kerning: normal;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--kerosene); color: var(--kerosene-ink); }
+
+a {
+  color: var(--kerosene-light);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+a:hover { color: var(--kerosene); }
+
+:focus-visible {
+  outline: 2px solid var(--kerosene);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+input, button { font: inherit; }
+
+.skip {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 10;
+  padding: 0.6rem 1rem;
+  background: var(--kerosene);
+  color: var(--kerosene-ink);
+  font-weight: 700;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.skip:focus { top: 12px; }
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* ---------- Первый экран: окно купе ---------- */
+
+.compartment {
+  position: relative;
+  padding: var(--pad);
+}
+
+.window {
+  position: relative;
+  height: calc(100svh - 2 * var(--pad));
+  min-height: 600px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #0A1A2E;
+  box-shadow:
+    inset 0 0 0 1px rgba(217, 228, 238, 0.08),
+    0 0 0 6px #0A1B2F,
+    0 0 0 7px rgba(217, 228, 238, 0.06);
+  isolation: isolate;
+  touch-action: pan-y;
+}
+
+.night {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+}
+
+/* Иней по краям стекла: шум feTurbulence, проявленный только у рамы. */
+.frost {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0.86 0 0 0 0 0.91 0 0 0 0 0.96 0 0 0 1.6 -0.62'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23f)'/%3E%3C/svg%3E");
+  -webkit-mask-image: radial-gradient(130% 120% at 50% 45%, transparent 58%, #000 100%);
+  mask-image: radial-gradient(130% 120% at 50% 45%, transparent 58%, #000 100%);
+  opacity: 0.55;
+}
+
+.title {
+  position: absolute;
+  z-index: 2;
+  left: clamp(22px, 5vw, 76px);
+  top: clamp(26px, 8vh, 92px);
+  width: min(34rem, 44vw);
+  text-shadow: 0 1px 18px rgba(6, 16, 28, 0.85), 0 0 2px rgba(6, 16, 28, 0.6);
+}
+
+.logo { margin: 0; font-weight: 400; }
+
+.logo-word {
+  display: block;
+  font: 700 clamp(3.25rem, 8.6vw, 6rem)/0.95 var(--display);
+  letter-spacing: 0.12em;
+  color: #EEF4F9;
+  margin-right: -0.12em;
+}
+
+.logo-sub {
+  display: block;
+  margin-top: 0.55rem;
+  font: 400 clamp(1.25rem, 2.2vw, 1.6rem)/1.2 var(--display);
+  letter-spacing: 0.03em;
+  color: var(--frost);
+}
+
+.stitch {
+  display: block;
+  width: 15rem;
+  height: 0.75rem;
+  margin: 1.1rem 0 1.25rem;
+  fill: none;
+  stroke: var(--thread);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+
+.hook {
+  margin: 0;
+  max-width: 32ch;
+  font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  line-height: 1.55;
+  color: #E4ECF3;
+}
+
+.watch {
+  position: absolute;
+  z-index: 3;
+  top: clamp(22px, 5vh, 48px);
+  right: clamp(22px, 3vw, 48px);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.eye { width: 48px; height: 48px; --eye: 0; }
+.eye svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.eye-track { fill: rgba(9, 26, 45, 0.7); stroke: rgba(217, 228, 238, 0.22); stroke-width: 2; }
+.eye-fill {
+  fill: none;
+  stroke: var(--warden);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - var(--eye) * 100);
+  transform: rotate(-90deg);
+  transform-origin: 24px 24px;
+}
+.eye-lid {
+  fill: none;
+  stroke: var(--frost);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  transform-origin: 24px 24px;
+  transform: scaleY(calc(0.12 + var(--eye) * 0.88));
+}
+.eye-pupil {
+  fill: var(--warden);
+  opacity: calc(var(--eye) * 1.2 - 0.15);
+}
+.eye.is-seen .eye-track { stroke: var(--warden); }
+
+.shutter {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(240, 164, 58, 0.65);
+  border-radius: 6px;
+  background: rgba(9, 26, 45, 0.78);
+  color: var(--kerosene-light);
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.shutter:hover { background: rgba(240, 164, 58, 0.16); }
+.shutter[aria-pressed="true"] {
+  background: var(--kerosene);
+  color: var(--kerosene-ink);
+}
+
+.whisper {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  font: italic 400 clamp(1.4rem, 2.6vw, 2rem)/1.2 var(--display);
+  color: var(--warden);
+  text-align: center;
+  text-shadow: 0 0 22px rgba(9, 26, 45, 0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease-out;
+  width: min(90%, 30ch);
+}
+.whisper.is-on { opacity: 1; }
+
+.hint {
+  position: absolute;
+  z-index: 2;
+  left: clamp(22px, 5vw, 76px);
+  bottom: clamp(20px, 4.5vh, 44px);
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--frost-dim);
+  text-shadow: 0 1px 10px rgba(6, 16, 28, 0.9);
+  pointer-events: none;
+}
+.hint-touch { display: none; }
+@media (hover: none) {
+  .hint-mouse { display: none; }
+  .hint-touch { display: inline; }
+}
+
+/* ---------- Билет ---------- */
+
+.table {
+  position: absolute;
+  z-index: 4;
+  right: calc(var(--pad) + clamp(22px, 3.2vw, 56px));
+  bottom: calc(var(--pad) + clamp(20px, 4.5vh, 48px));
+  width: min(35vw, 540px);
+}
+
+.ticket { margin: 0; }
+
+.ticket-paper {
+  margin: 0;
+  transform: rotate(-2.2deg);
+  transform-origin: 60% 50%;
+  filter: drop-shadow(0 16px 24px rgba(3, 10, 20, 0.55));
+}
+.ticket-paper canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ticket-form {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem 0.85rem;
+  background: rgba(8, 22, 38, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.ticket-label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-weight: 700;
+  font-size: 0.98rem;
+}
+
+.ticket-row { display: flex; gap: 0.6rem; }
+
+.ticket-input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(217, 228, 238, 0.32);
+  border-radius: 6px;
+  background: #0A1C31;
+  color: var(--frost);
+  font-family: var(--mono);
+  font-size: 1.02rem;
+  caret-color: var(--kerosene);
+}
+.ticket-input::placeholder { color: #8FA3B7; opacity: 1; }
+.ticket-input:focus-visible { outline-offset: 1px; border-color: var(--kerosene); }
+.ticket-input[aria-invalid="true"] { border-color: var(--error); }
+
+.ticket-button {
+  flex: none;
+  height: 48px;
+  padding: 0 1.15rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--kerosene);
+  color: var(--kerosene-ink);
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.ticket-button:hover { background: var(--kerosene-light); }
+.ticket-button:active { transform: translateY(1px); }
+.ticket-button:focus-visible { outline-color: var(--frost); }
+.ticket-button[aria-busy="true"] { cursor: progress; opacity: 0.8; }
+
+.ticket-note {
+  margin: 0.55rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--frost-dim);
+}
+.ticket-note[data-state="error"] { color: var(--error); }
+.ticket-note[data-state="done"] { color: var(--kerosene-light); }
+
+/* ---------- Разделы ---------- */
+
+.route-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 46rem) minmax(0, 1fr);
+  column-gap: 2.5rem;
+  padding: 0 clamp(18px, 4vw, 40px);
+}
+
+.route {
+  grid-column: 1;
+  justify-self: end;
+  align-self: start;
+  position: sticky;
+  top: 30vh;
+  margin-top: 9rem;
+}
+.route ol {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.route ol::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  border-left: 2px dashed rgba(194, 54, 47, 0.75);
+}
+.route li { position: relative; }
+.route a {
+  display: block;
+  padding: 0.42rem 0 0.42rem 1.6rem;
+  color: var(--frost-dim);
+  text-decoration: none;
+  font-size: 0.98rem;
+}
+.route a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border: 2px solid var(--frost-dim);
+  border-radius: 50%;
+  background: var(--night);
+}
+.route a:hover { color: var(--frost); }
+.route a[aria-current="true"] { color: var(--frost); }
+.route a[aria-current="true"]::before { background: var(--kerosene); border-color: var(--kerosene); }
+
+.sections { grid-column: 2; min-width: 0; }
+
+section { padding-top: clamp(5rem, 11vw, 8.5rem); scroll-margin-top: 2rem; }
+
+h2 {
+  margin: 0 0 1.4rem;
+  font: 700 clamp(2.1rem, 4.4vw, 3.3rem)/1.08 var(--display);
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+h3 {
+  margin: 0 0 0.4rem;
+  font: 700 1.55rem/1.2 var(--display);
+}
+
+section p { margin: 0 0 1rem; max-width: 65ch; }
+
+.lede { font-size: 1.32rem; line-height: 1.5; }
+
+/* Памятка пассажиру */
+.memo {
+  margin-top: 2rem;
+  padding: 1.6rem clamp(1.1rem, 3vw, 2.2rem) 0.6rem;
+  background: var(--night-raised);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.7);
+}
+.memo-head {
+  margin: 0 0 0.6rem;
+  font: 700 1.3rem/1.3 var(--display);
+  color: var(--frost);
+}
+.memo-list { margin: 0; padding: 0; list-style: none; }
+.memo-list li {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--line);
+}
+.memo-list p { margin: 0; }
+.memo-list b { color: #F1F5F9; }
+.memo-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-top: 0.1rem;
+  fill: none;
+  stroke: var(--kerosene);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.memo-list li:last-child .memo-icon { stroke: var(--warden); }
+
+/* Главы вдоль состава */
+.chapters-intro { color: var(--frost-dim); }
+
+.train {
+  --rail: 7.6rem;
+  position: relative;
+  margin: 2.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.train::before,
+.train::after {
+  content: "";
+  position: absolute;
+  top: 0.6rem;
+  bottom: 0.6rem;
+  border-left: 1px solid rgba(217, 228, 238, 0.32);
+}
+.train::before { left: calc(var(--rail) + 0.9rem); }
+.train::after { left: calc(var(--rail) + 1.45rem); }
+
+.car {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  column-gap: 3.2rem;
+  padding: 1.4rem 0;
+}
+.car::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--rail) + 0.62rem);
+  top: 1.7rem;
+  width: 1.12rem;
+  height: 1.7rem;
+  border-radius: 3px;
+  background: var(--night);
+  border: 2px solid var(--frost-dim);
+}
+.car-outside::before { border-style: dashed; border-color: var(--warden); }
+.car-engine::before { background: var(--kerosene); border-color: var(--kerosene); }
+
+.car-place {
+  margin: 0;
+  text-align: right;
+}
+.car-roman {
+  display: block;
+  font: 700 2.4rem/1 var(--display);
+  color: var(--frost);
+}
+.car-where {
+  display: block;
+  margin-top: 0.35rem;
+  font: 400 0.9rem/1.3 var(--mono);
+  color: var(--frost-dim);
+}
+.car-body p { margin: 0; }
+
+/* Ведомость */
+.manifest {
+  width: 100%;
+  margin-top: 1rem;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.manifest caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: 0.9rem;
+  color: var(--frost-dim);
+  font-size: 0.98rem;
+}
+.manifest th,
+.manifest td {
+  padding: 1rem 0.9rem 1rem 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.manifest thead th {
+  padding-top: 0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--frost-dim);
+  border-bottom-color: rgba(217, 228, 238, 0.32);
+}
+.manifest td:first-child {
+  width: 7rem;
+  font-family: var(--mono);
+  font-size: 0.98rem;
+  color: var(--frost-dim);
+}
+.manifest tbody th {
+  width: 13rem;
+  font: 700 1.15rem/1.35 var(--display);
+}
+.manifest-warden th { color: var(--warden); }
+
+/* Касса */
+.kassa { padding-bottom: 2rem; }
+.ticket-kassa { margin-top: 2.2rem; }
+.ticket-kassa .ticket-paper { transform: rotate(1.4deg); transform-origin: 40% 50%; }
+.ticket-kassa .ticket-form { margin-top: 1.6rem; }
+
+.footer {
+  max-width: 46rem;
+  margin: 6rem auto 0;
+  padding: 2rem clamp(18px, 4vw, 40px) 3.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--frost-dim);
+  font-size: 0.98rem;
+}
+.footer p { margin: 0 0 0.4rem; }
+
+/* ---------- Планшет и телефон ---------- */
+
+@media (max-width: 1100px) {
+  .route { display: none; }
+  .route-layout { grid-template-columns: minmax(0, 46rem); justify-content: center; }
+  .sections { grid-column: 1; }
+}
+
+@media (max-width: 1023px) {
+  .window { height: 74svh; min-height: 520px; }
+  .title { width: auto; right: clamp(22px, 5vw, 76px); }
+  .table {
+    position: static;
+    width: min(100%, 560px);
+    margin: 1.4rem auto 0;
+  }
+}
+
+@media (max-width: 640px) {
+  body { font-size: 1.0625rem; }
+  .window { height: 80svh; min-height: 500px; border-radius: 20px; }
+  .title { left: 18px; right: 18px; top: 22px; }
+  .logo-word { font-size: clamp(2.9rem, 15vw, 4rem); }
+  .logo-sub { font-size: 1.2rem; margin-top: 0.35rem; }
+  .stitch { width: 11rem; margin: 0.8rem 0 0.9rem; }
+  .hook { font-size: 1rem; max-width: none; }
+  .watch { top: auto; bottom: 14px; right: 14px; gap: 0.6rem; }
+  .eye { width: 42px; height: 42px; }
+  .hint { left: 18px; right: 150px; bottom: 18px; font-size: 0.92rem; }
+  .table { margin-top: 1.1rem; padding: 0 2px; }
+  .ticket-row { flex-direction: column; }
+  .ticket-button { width: 100%; }
+  .lede { font-size: 1.18rem; }
+  .train { --rail: 3.8rem; }
+  .car { column-gap: 2.6rem; }
+  .car-roman { font-size: 1.9rem; }
+  .car-where { font-size: 0.78rem; }
+
+  .manifest thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .manifest, .manifest tbody, .manifest tr, .manifest th, .manifest td { display: block; width: auto; }
+  .manifest tr { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .manifest th, .manifest td { padding: 0.15rem 0; border: 0; }
+  .manifest td:first-child { width: auto; }
+  .manifest tbody th { width: auto; }
+  .manifest td::before {
+    content: attr(data-label) ": ";
+    color: var(--frost-dim);
+    font-family: var(--text);
+    font-size: 0.9rem;
+  }
+  .manifest td:last-child { margin-top: 0.35rem; }
+  .manifest td:last-child::before { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whisper, .shutter, .ticket-button { transition: none; }
+}
