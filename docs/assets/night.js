@@ -41,6 +41,8 @@
     return `rgb(${Math.round(x[0] + (y[0] - x[0]) * k)},${Math.round(x[1] + (y[1] - x[1]) * k)},${Math.round(x[2] + (y[2] - x[2]) * k)})`;
   }
 
+  const HIDDEN = { bark: mix(MOON.bark, MOON.fog, 0.5), shade: mix(MOON.shade, MOON.fog, 0.45), mark: mix(MOON.mark, MOON.fog, 0.3), twig: MOON.twig };
+
   function layer() {
     const c = document.createElement('canvas');
     c.width = Math.max(1, Math.round(W * dpr));
@@ -94,7 +96,7 @@
 
     const nearSpec = mobile
       ? [[0.025, 22], [0.965, 30]]
-      : [[0.03, 40], [0.335, 20], [0.885, 30], [0.975, 54]];
+      : [[0.03, 40], [0.44, 20], [0.885, 30], [0.975, 54]];
     nears = nearSpec.map(([fx, w]) => birch(r, fx * W, w * scale, H + 30, 1));
 
     // Смотритель: береста на теле и фонари на руках-ветвях.
@@ -153,7 +155,7 @@
     c.fillStyle = sky;
     c.fillRect(0, 0, W, horizon + 2);
 
-    const mx = W * (mobile ? 0.8 : 0.83), my = H * 0.13;
+    const mx = W * (mobile ? 0.2 : 0.76), my = H * (mobile ? 0.5 : 0.2);
     const halo = c.createRadialGradient(mx, my, 0, mx, my, H * 0.48);
     halo.addColorStop(0, 'rgba(190,212,236,0.2)');
     halo.addColorStop(1, 'rgba(190,212,236,0)');
@@ -216,8 +218,8 @@
   function armPoint(side, t) {
     const x = warden.x, foot = horizon + 12 * scale, h = warden.height;
     const sx = x + side * 6 * scale, sy = foot - h * 0.8;
-    const cx = x + side * 62 * scale, cy = foot - h * 0.74;
-    const ex = x + side * (side > 0 ? 70 : 54) * scale + Math.sin(time * 0.6 + side) * 3 * scale, ey = foot - h * 0.3;
+    const cx = x + side * 34 * scale, cy = foot - h * 0.7;
+    const ex = x + side * (side > 0 ? 40 : 31) * scale + Math.sin(time * 0.6 + side) * 3 * scale, ey = foot - h * 0.3;
     const u = 1 - t;
     return [u * u * sx + 2 * u * t * cx + t * t * ex, u * u * sy + 2 * u * t * cy + t * t * ey];
   }
@@ -400,7 +402,7 @@
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.drawImage(back, 0, 0);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    drawWarden(ctx, MOON, false);
+    drawWarden(ctx, HIDDEN, false);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.drawImage(front, 0, 0);
     drawLit(R);
