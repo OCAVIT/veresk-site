@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VERESK — ночной поезд до Вереска</title>
+<meta name="description" content="Фолк-хоррор от первого лица: ночной поезд встал посреди зимней тайги, а на свет фонаря из леса выходит Берёзовый Смотритель. Возьмите именной билет до Вереска.">
+<meta name="theme-color" content="#0D2138">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VERESK — ночной поезд до Вереска">
+<meta property="og:description" content="Поезд № 13 встал посреди тайги. Возьмите именной билет до Вереска.">
+<meta property="og:image" content="https://ocavit.github.io/veresk-site/og.png">
+<meta property="og:url" content="https://ocavit.github.io/veresk-site/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#ticket-hero-name">Сразу к билету</a>
+
+<header class="compartment" id="top">
+  <div class="window" data-window>
+    <canvas class="night" id="night" aria-hidden="true"></canvas>
+    <div class="frost" aria-hidden="true"></div>
+
+    <div class="title">
+      <h1 class="logo">
+        <span class="logo-word" lang="en">VERESK</span>
+        <span class="logo-sub">Ночной поезд</span>
+      </h1>
+      <svg class="stitch" viewBox="0 0 240 12" aria-hidden="true" focusable="false"><use href="#stitch-row"/></svg>
+      <p class="hook">Поезд № 13 встал посреди зимней тайги на 412-м километре. Вы — проводница. Фонарь греет и освещает путь, но на его свет из леса выходит Берёзовый Смотритель.</p>
+    </div>
+
+    <div class="watch">
+      <div class="eye" data-eye aria-hidden="true">
+        <svg viewBox="0 0 48 48" focusable="false">
+          <circle class="eye-track" cx="24" cy="24" r="21"/>
+          <circle class="eye-fill" cx="24" cy="24" r="21" pathLength="100"/>
+          <path class="eye-lid" d="M9 24c4.5-6.5 9.5-9.5 15-9.5S34.5 17.5 39 24c-4.5 6.5-9.5 9.5-15 9.5S13.5 30.5 9 24z"/>
+          <circle class="eye-pupil" cx="24" cy="24" r="4.2"/>
+        </svg>
+      </div>
+      <button class="shutter" type="button" data-shutter aria-pressed="false">Прикрыть фонарь</button>
+    </div>
+
+    <p class="whisper" data-whisper role="status" aria-live="polite"></p>
+
+    <p class="hint" aria-hidden="true">
+      <span class="hint-mouse">Курсор — это фонарь. Посветите в лес.</span>
+      <span class="hint-touch">Ведите пальцем по окну — это фонарь.</span>
+    </p>
+  </div>
+
+  <div class="table">
+    <form class="ticket" id="ticket-hero" data-ticket novalidate>
+      <figure class="ticket-paper">
+        <canvas width="1200" height="630" data-ticket-canvas role="img" aria-label="Билет до Вереска"></canvas>
+      </figure>
+      <div class="ticket-form">
+        <label class="ticket-label" for="ticket-hero-name">Имя пассажира</label>
+        <div class="ticket-row">
+          <input class="ticket-input" id="ticket-hero-name" name="passenger" type="text" maxlength="26" autocomplete="name" spellcheck="false" placeholder="Например, Анна Лукина" aria-describedby="ticket-hero-note">
+          <button class="ticket-button" type="submit">Скачать билет</button>
+        </div>
+        <p class="ticket-note" id="ticket-hero-note" data-ticket-note aria-live="polite">Касса печатает именной билет до Вереска — картинку для поста.</p>
+      </div>
+    </form>
+  </div>
+</header>
+
+<main class="route-layout">
+  <nav class="route" aria-label="Маршрут по странице">
+    <ol>
+      <li><a href="#story">Поезд встал</a></li>
+      <li><a href="#light">Свет</a></li>
+      <li><a href="#chapters">Пять глав</a></li>
+      <li><a href="#passengers">Пассажиры</a></li>
+      <li><a href="#kassa">Касса</a></li>
+    </ol>
+  </nav>
+
+  <div class="sections">
+    <section class="story" id="story" aria-labelledby="story-title">
+      <h2 id="story-title">Поезд встал</h2>
+      <p class="lede">В 23:59 поезд № 13 Москва — Вереск уходит по расписанию. В 02:14 он встаёт посреди тайги. Машинист не отвечает, связь молчит, за окнами только берёзы и снег до горизонта.</p>
+      <p>Вы — проводница шестого вагона. В ведомости восемь пассажиров, а в купе их девять: мальчик в заячьей шапке билета не покупал. Он не мёрзнет, не разговаривает и всё время смотрит в окно — туда, где между деревьями качаются зелёные огни.</p>
+      <p>До рассвета нужно дойти по составу до паровоза и снова тронуть поезд с места. Выходить из вагона придётся: за углём, за помощью, за пропавшими.</p>
+    </section>
+
+    <section class="light" id="light" aria-labelledby="light-title">
+      <h2 id="light-title">Свет держит вас в живых — и выдаёт</h2>
+      <div class="memo">
+        <p class="memo-head">Памятка пассажиру поезда № 13</p>
+        <ul class="memo-list">
+          <li>
+            <svg class="memo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#i-warmth"/></svg>
+            <p><b>Тепло уходит, пока вы снаружи.</b> Горячий чай, печка в тамбуре и закрытая дверь купе возвращают его. Замёрзнуть — значит проиграть.</p>
+          </li>
+          <li>
+            <svg class="memo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#i-kerosene"/></svg>
+            <p><b>Керосин в фонаре кончается.</b> Прикрутите фитиль — фонаря хватит надолго, но вы увидите меньше.</p>
+          </li>
+          <li>
+            <svg class="memo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#i-match"/></svg>
+            <p><b>Спичек мало.</b> Одна спичка — это растопленная печь, зажжённый фонарь или секунда света в лицо Смотрителю. Выбирайте.</p>
+          </li>
+          <li>
+            <svg class="memo-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><use href="#i-eye"/></svg>
+            <p><b>Смотритель идёт на свет.</b> Если в углу экрана открылся глаз — прикройте фонарь и спрячьтесь. Попробуйте на первом экране.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="chapters" id="chapters" aria-labelledby="chapters-title">
+      <h2 id="chapters-title">От шестого вагона до паровоза</h2>
+      <p class="chapters-intro">Пять глав — пять остановок вдоль состава, от хвоста к голове поезда. С каждой ночь холоднее, а Смотритель ближе.</p>
+      <ol class="train">
+        <li class="car">
+          <p class="car-place"><span class="car-roman">I</span><span class="car-where">вагон 6</span></p>
+          <div class="car-body">
+            <h3>Остановка</h3>
+            <p>Купе № 4, дежурный свет, иней на стёклах. Проводник соседнего вагона пропал, его фонарь горит в снегу у насыпи.</p>
+          </div>
+        </li>
+        <li class="car">
+          <p class="car-place"><span class="car-roman">II</span><span class="car-where">вагон 4</span></p>
+          <div class="car-body">
+            <h3>Вагон-ресторан</h3>
+            <p>Стол накрыт на тринадцать персон, чай ещё горячий. Ужинать некому, но кто-то заказал ещё один стакан.</p>
+          </div>
+        </li>
+        <li class="car car-outside">
+          <p class="car-place"><span class="car-roman">III</span><span class="car-where">412-й км</span></p>
+          <div class="car-body">
+            <h3>Сигнальная будка</h3>
+            <p>Вылазка в метель за помощью. Фитиль прикручен, следы мальчика ведут к будке, а между берёзами идут зелёные огни.</p>
+          </div>
+        </li>
+        <li class="car">
+          <p class="car-place"><span class="car-roman">IV</span><span class="car-where">вагон 2</span></p>
+          <div class="car-body">
+            <h3>Почтовый вагон</h3>
+            <p>Мешки писем, которые никто не отправлял. Все адресованы в Вереск, и одно — вам.</p>
+          </div>
+        </li>
+        <li class="car car-engine">
+          <p class="car-place"><span class="car-roman">V</span><span class="car-where">паровоз</span></p>
+          <div class="car-body">
+            <h3>Паровоз</h3>
+            <p>Топка, давление пара и последняя спичка. Поезд нужно тронуть, пока Смотритель ломится в окно кабины.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="passengers" id="passengers" aria-labelledby="passengers-title">
+      <h2 id="passengers-title">Ведомость пассажиров</h2>
+      <table class="manifest">
+        <caption>Поезд № 13 Москва — Вереск, вагон 6. Отметки проводника.</caption>
+        <thead>
+          <tr><th scope="col">Место</th><th scope="col">Пассажир</th><th scope="col">Отметка проводника</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Место">служебное</td>
+            <th scope="row" data-label="Пассажир">Вера Лукина, 23 года, проводница</th>
+            <td data-label="Отметка">Это вы. Ведёте журнал рейса, держите фонарь и ключи от всех купе. Обещали матери вернуться к Новому году.</td>
+          </tr>
+          <tr>
+            <td data-label="Место">13</td>
+            <th scope="row" data-label="Пассажир">Мальчик, около 7 лет</th>
+            <td data-label="Отметка">Билета нет, в ведомости не значится. Шапка из белого заячьего меха. Не мёрзнет. Откуда-то знает, как зовут машиниста.</td>
+          </tr>
+          <tr class="manifest-warden">
+            <td data-label="Место">—</td>
+            <th scope="row" data-label="Пассажир">Берёзовый Смотритель</th>
+            <td data-label="Отметка">В списках не значится. Ростом с берёзу, вместо лица — береста. Ходит вдоль состава с зелёными фонарями и приходит на свет.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="kassa" id="kassa" aria-labelledby="kassa-title">
+      <h2 id="kassa-title">Касса открыта до рассвета</h2>
+      <p>Впишите имя — касса напечатает именной билет на поезд № 13. Вагон, место и номер билета зависят от имени. Покажите билет друзьям: пусть знают, куда вы едете.</p>
+      <form class="ticket ticket-kassa" id="ticket-kassa" data-ticket novalidate>
+        <figure class="ticket-paper">
+          <canvas width="1200" height="630" data-ticket-canvas role="img" aria-label="Билет до Вереска"></canvas>
+        </figure>
+        <div class="ticket-form">
+          <label class="ticket-label" for="ticket-kassa-name">Имя пассажира</label>
+          <div class="ticket-row">
+            <input class="ticket-input" id="ticket-kassa-name" name="passenger" type="text" maxlength="26" autocomplete="name" spellcheck="false" placeholder="Например, Анна Лукина" aria-describedby="ticket-kassa-note">
+            <button class="ticket-button" type="submit">Скачать билет</button>
+          </div>
+          <p class="ticket-note" id="ticket-kassa-note" data-ticket-note aria-live="polite">PNG 1200×630. Имя остаётся в вашем браузере и никуда не отправляется.</p>
+        </div>
+      </form>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <p><span lang="en">VERESK</span> — концепт игры, учебный проект. Персонажи и события вымышлены.</p>
+  <p><a href="https://github.com/OCAVIT/veresk-site/blob/main/TZ.md">Техническое задание</a> и <a href="https://github.com/OCAVIT/veresk-site">исходный код</a> на GitHub.</p>
+</footer>
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <g id="stitch-row">
+      <path d="M2 2l8 8M10 2l-8 8M14 2l8 8M22 2l-8 8M26 2l8 8M34 2l-8 8M38 2l8 8M46 2l-8 8M50 2l8 8M58 2l-8 8M62 2l8 8M70 2l-8 8M74 2l8 8M82 2l-8 8M86 2l8 8M94 2l-8 8M98 2l8 8M106 2l-8 8M110 2l8 8M118 2l-8 8M122 2l8 8M130 2l-8 8M134 2l8 8M142 2l-8 8M146 2l8 8M154 2l-8 8M158 2l8 8M166 2l-8 8M170 2l8 8M178 2l-8 8M182 2l8 8M190 2l-8 8M194 2l8 8M202 2l-8 8M206 2l8 8M214 2l-8 8M218 2l8 8M226 2l-8 8M230 2l8 8M238 2l-8 8"/>
+    </g>
+    <g id="i-warmth">
+      <path d="M16 4c1.8 4.2 6.5 7.6 6.5 13.4A6.5 6.5 0 0 1 9.5 17.4c0-2.9 1.3-5.1 3-6.9.2 2.3 1.3 3.7 2.9 4.4-.6-3.9-.2-7.4.6-10.9z"/>
+      <path d="M8 27h16"/>
+    </g>
+    <g id="i-kerosene">
+      <path d="M16 5c3.4 4.9 6.5 8.8 6.5 13a6.5 6.5 0 0 1-13 0c0-4.2 3.1-8.1 6.5-13z"/>
+      <path d="M13.2 19.5a3 3 0 0 0 2.8 2.5"/>
+    </g>
+    <g id="i-match">
+      <path d="M9 26L21.5 9.5"/>
+      <path d="M21.5 9.5c-1.6-1.9-1.4-4.6.6-6 .5 1.7 1.6 2.4 2.9 2.6 1.3 1.6.9 3.9-.9 4.8-1 .5-2 .3-2.6-1.4z"/>
+    </g>
+    <g id="i-eye">
+      <path d="M4 16c3.3-5.2 7.3-7.8 12-7.8s8.7 2.6 12 7.8c-3.3 5.2-7.3 7.8-12 7.8S7.3 21.2 4 16z"/>
+      <circle cx="16" cy="16" r="3.4"/>
+    </g>
+  </defs>
+</svg>
+
+<script src="assets/night.js" defer></script>
+<script src="assets/ticket.js" defer></script>
+</body>
+</html>
